@@ -7,6 +7,8 @@ import { Input, Button } from 'antd';
 
 function App() {
   const [tasks, setTasks] = useState([]);
+  const [filterTasks, setFilterTasks] = useState([]);
+
   const [tagsFilter, setTagsFilter] = useState([]);
   const [value, setValue] = useState('');
   const [clearFilter, setClearFilter] = useState(false);
@@ -19,11 +21,13 @@ function App() {
         return { ...row, key: uid() }
       })
       setTasks(data);
+      setFilterTasks(data);
     }
     getTasks();
   }, [clearFilter])
 
   useEffect(() => {
+    setFilterTasks(tasks);
     const set = new Set();
     tasks.forEach((row, i) => {
       row.tag.forEach((val, indx) => set.add(val));
@@ -53,7 +57,7 @@ function App() {
             entry.dueDate.toLowerCase().includes(currValue) ||
             entry.status.toLowerCase().includes(currValue)
           );
-          setTasks(filteredData);
+          setFilterTasks(filteredData);
         }}
       />
       <Button onClick={() => {
@@ -62,7 +66,7 @@ function App() {
       }}>
         Clear Filter
       </Button>
-      <TableNew tasks_data={tasks} setTasks={setTasks} tagsFilter={tagsFilter} />
+      <TableNew tasks_data={filterTasks} setTasks={setTasks} tagsFilter={tagsFilter} />
     </div>
   )
 }

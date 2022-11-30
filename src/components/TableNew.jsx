@@ -242,7 +242,7 @@ function TableNew({ tasks_data, setTasks, tagsFilter }) {
             ...editRow,
             ...values,
             timestamp: new Date().toString(),
-            dueDate: rowDate,
+            dueDate: rowDate === "" ? editRow.dueDate : rowDate,
             tag: tags
         })
         setTasks(newData);

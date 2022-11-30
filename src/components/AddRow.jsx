@@ -3,6 +3,9 @@ import { DatePicker, Form, Input, Select, Button } from 'antd';
 import { useState } from "react";
 import AddTag from "./AddTag";
 import { uid } from 'uid';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+dayjs.extend(customParseFormat);
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -94,7 +97,9 @@ function AddRow({ addRow }) {
                     <TextArea rows={4} />
                 </Form.Item>
                 <Form.Item label="Due Date" name="dueDate" {...dateConfig}>
-                    <DatePicker />
+                    <DatePicker disabledDate={(current) => {
+                        return current && current < dayjs(new Date().toJSON().slice(0, 10));
+                    }} />
                 </Form.Item>
                 <Form.Item label="Add Tag" name="tags" >
                     <AddTag addTag={addTag} initialTags={[]} />
